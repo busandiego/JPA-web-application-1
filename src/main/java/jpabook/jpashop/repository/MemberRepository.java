@@ -24,7 +24,7 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
-    // JPQL 필요함
+    // 리스트는 JPQL 필요함
     public List<Member> findAll(){
 
         return em.createQuery("select m from Member m", Member.class)
