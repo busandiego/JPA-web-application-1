@@ -81,7 +81,7 @@ public class MemberApiController {
        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
     }
 
-
+    // 시작
     @Data
     static class UpdateMemberRequest {
         private String name;
