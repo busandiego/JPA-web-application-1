@@ -7,9 +7,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -61,6 +58,8 @@ public class OrderRepository {
     }
 
     public List<Order> findAllWithMemberDelivery() {
+        // 외부를 건드리지않고 내부에 원하는 것만 페치 조인으로 가져옴
+        // 재사용성이 좋다. 로직 재활용 가능
 
         // Fetch Join Lazy 무시하고 객체에 값을 다 가져온다
       return  em.createQuery(
@@ -69,8 +68,10 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class
         ).getResultList();
 
-
+      // 엔티티로 조회해서 나중에 수정하는 로직 가능.
     }
+
+
 
 
     /*
