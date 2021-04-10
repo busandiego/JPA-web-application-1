@@ -39,23 +39,37 @@ public class SimpleApiController {
 
     }
 
+
+    // 쿼리 5번 나감
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> ordersV2() {
 
         // order 2개 조회
+        List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
         // N + 1 문제 첫번째 쿼리가 나감 N번만큼 가져옴
         // N + 1  + 회원 N + 배송 N => 5
         // Eager로 하면 예측이 안됨.
-        List<Order> orders = orderRepository.findAllByString(new OrderSearch());
-
-        //
         List<SimpleOrderDto> result = orders.stream()
                     .map(o -> new SimpleOrderDto(o))
                     .collect(Collectors.toList());
 
         return result;
     }
+
+
+    // 쿼리 한번만 나감
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+
 
     @Data
     static class SimpleOrderDto {
