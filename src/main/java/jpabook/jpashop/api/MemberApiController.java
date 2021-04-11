@@ -77,7 +77,8 @@ public class MemberApiController {
         memberService.update(id, request.getName());
         Member findMember = memberService.findOne(id);
 
-        // 커맨더와 쿼리 분리리
+
+        // 커맨더와 쿼리 분리
        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
     }
 
