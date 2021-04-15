@@ -78,4 +78,19 @@ public class OrderRepository {
      *   JPA Criteria
      * */
 
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                // distinct 한줄만 나오게해줌
+                // DB distinct는 모든 데이터가 같아야 distinct 적용됨
+                // JPA 자체적으로 OrderId가 같은 값이면 중복된거 버려줌
+                "select distinct o from Order o" +
+                         " join fetch o.member m" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i", Order.class)
+                        .getResultList();
+
+
+    }
+
 }
